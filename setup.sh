@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # ferramenta command line para startar projeto de novo componente javascript, com os arquivos comumente usados
 # author: Evandro Leopoldino Gonçalves <evandrolgoncalves@gmail.com>
 # https://github.com/evandrolg
@@ -8,12 +9,12 @@
 while test -n "$1"
 do
 	case "$1" in
-      -n | --name ) # 
+      -n | --name ) # guarda valor de nome passado por parametro
 			shift
 			name_project="$1"
 		;;
 
-		-j | --jquery )
+		-j | --jquery ) # guarda flag identificando a necessidade de carregar jquery
 			tem_jquery=1
 		;;
 	esac

@@ -8,7 +8,7 @@
 while test -n "$1"
 do
 	case "$1" in
-		-n | --name ) # 
+      -n | --name ) # 
 			shift
 			name_project="$1"
 		;;

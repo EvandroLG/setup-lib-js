@@ -1,18 +1,29 @@
 #!/bin/bash
 
-echo -e 'what is the name of the project?'
-read NAME_PROJECT
+echo -e 'qual o nome do projeto?'
+read name_project
 
 PROJECTS=~/Projetos/pessoais/front-end
-FILES_SETUP=$PROJECTSsetup-project/files
+FILES_SETUP=$PROJECTS/setup-project/files
 
-cd $PROJECTS && mkdir $NAME_PROJECT
-NEW_PROJECT=$PROJECTS/$NAME_PROJECT
+# cria diretorio com o nome do projeto
+cd $PROJECTS && mkdir $name_project
+NEW_PROJECT=$PROJECTS/$name_project
 
+# cria arquivo de source principal com o nome do projeto
 cd $NEW_PROJECT
 mkdir src && cd src/
-touch $NAME_PROJECT.js
-cd..
+touch $name_project.js
+cd ..
 
+# copia arquivos pre-configurados
+mkdir example
+cp $FILES_SETUP/.gitignore .gitignore
 cp $FILES_SETUP/Makefile Makefile
-cp $FILES_SETUP/test test
+cp -R $FILES_SETUP/test/ test
+
+# renomeia arquivos de teste com o nome do projeto
+cd test/
+mv runner.html runner.$name_project.html
+cd spec/
+mv spec.js spec.$name_project.js

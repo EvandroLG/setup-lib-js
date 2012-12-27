@@ -27,9 +27,9 @@ do
          exit 0
       ;;
 
-      -f | --filename ) # guarda o valor do nome do arquivo passado por parametro
+      -f | --file_name ) # guarda o valor do nome do arquivo passado por parametro
 			shift
-			filename="$1"
+			file_name="$1"
 		;;
 
       -n | --name ) # guarda o valor do nome do projeto passado por parametro

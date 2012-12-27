@@ -6,8 +6,12 @@
 # https://github.com/evandrolg
 # License: MIT
 
-tem_jquery=0
+HAS_JQUERY=0
+FILE_NAME=
+NAME=
+DIRECTORY=
 
+CONFIG="setup-js.conf"
 PROJECTS=~/Projetos/pessoais/front-end
 FILES_SETUP=$PROJECTS/setup-lib-js/files
 MENSAGEM_HELP="
@@ -18,19 +22,30 @@ MENSAGEM_HELP="
 -j, --jquery: Baixa o script do jquery para o projeto
 "
 
-# varre todos os parametros passados na execução do programa
+while read LINHA; do
+   [ "$(echo $LINHA | cut -c1)" = "#" ] && continue
+   [ "$LINHA" ] || continue
+   set - $LINHA
+   chave=$1
+   shift
+   valor=$*
+   echo "$chave -> $valor"   
+done < "$CONFIG"
+
+
+varre todos os parametros passados na execução do programa
 while test -n "$1"
 do
-	case "$1" in
-	   -h | --help )
+ case "$1" in
+    -h | --help )
          echo -e "$MENSAGEM_HELP"
          exit 0
       ;;
 
       -f | --file_name ) # guarda o valor do nome do arquivo passado por parametro
-			shift
-			file_name="$1"
-		;;
+       shift
+       file_name="$1"
+    ;;
 
       -n | --name ) # guarda o valor do nome do projeto passado por parametro
          shift
@@ -42,11 +57,11 @@ do
          directory="$1"
       ;;
 
-		-j | --jquery ) # guarda flag identificando a necessidade de carregar jquery
-			tem_jquery=1
-		;;
-	esac
-	shift
+    -j | --jquery ) # guarda flag identificando a necessidade de carregar jquery
+       tem_jquery=1
+    ;;
+ esac
+ shift
 done
 
 # cria diretorio com o nome do projeto
@@ -97,8 +112,8 @@ touch $filename.js
 # baixa jquery para o projeto, caso tenha sido solicitado por parametro
 if test "$tem_jquery" = 1
 then
-	curl -L -O https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js
-	echo ""
+ curl -L -O https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js
+ echo ""
 fi
 
 # modifica nome de valores - nome do projeto e nome do arquivo - de acordo

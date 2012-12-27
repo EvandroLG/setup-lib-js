@@ -6,10 +6,27 @@
 # https://github.com/evandrolg
 # License: MIT
 
+tem_jquery=0
+
+PROJECTS=~/Projetos/pessoais/front-end
+FILES_SETUP=$PROJECTS/setup-lib-js/files
+MENSAGEM_HELP="
+\033[32mOPÇÕES:\033[m
+-f, --filename: Dá nome ao arquivo da lib
+-n, --name: Dá nome ao projeto
+-d, --directory: Caminho do diretório onde projeto será criado
+-j, --jquery: Baixa o script do jquery para o projeto
+"
+
 # varre todos os parametros passados na execução do programa
 while test -n "$1"
 do
 	case "$1" in
+	   -h | --help )
+         echo -e "$MENSAGEM_HELP"
+         exit 0
+      ;;
+
       -f | --filename ) # guarda o valor do nome do arquivo passado por parametro
 			shift
 			filename="$1"
@@ -20,15 +37,17 @@ do
          name_project="$1"
       ;;
 
+      -d | --directory ) # guarda o valor com o diretorio onde será criado o programa
+         shift
+         directory="$1"
+      ;;
+
 		-j | --jquery ) # guarda flag identificando a necessidade de carregar jquery
 			tem_jquery=1
 		;;
 	esac
 	shift
 done
-
-PROJECTS=~/Projetos/pessoais/front-end
-FILES_SETUP=$PROJECTS/setup-project/files
 
 # cria diretorio com o nome do projeto
 cd $PROJECTS
@@ -71,7 +90,7 @@ mv spec.js spec.$filename.js
 
 # cria arquivo de source principal com o nome do projeto
 cd $NEW_PROJECT
-mkdir src 
+mkdir src
 cd src/
 touch $filename.js
 

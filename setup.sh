@@ -6,14 +6,8 @@
 # https://github.com/evandrolg
 # License: MIT
 
-HAS_JQUERY=0
-FILE_NAME=
-NAME=
-DIRECTORY=
-
 CONFIG="setup-js.conf"
-PROJECTS=~/Projetos/pessoais/front-end
-FILES_SETUP=$PROJECTS/setup-lib-js/files
+FILES_SETUP=~/Projetos/pessoais/front-end/setup-lib-js/files
 MENSAGEM_HELP="
 \033[32mOPÇÕES:\033[m
 -f, --filename: Dá nome ao arquivo da lib
@@ -22,18 +16,47 @@ MENSAGEM_HELP="
 -j, --jquery: Baixa o script do jquery para o projeto
 "
 
+file_name=
+name_project=
+directory=
+has_jquery=0
+
+# faz parse dos arquivos de configuração
 while read LINHA; do
+   # remove todas as linhas com comentários
    [ "$(echo $LINHA | cut -c1)" = "#" ] && continue
+   
+   # remove todas as linhas em branco
    [ "$LINHA" ] || continue
    set - $LINHA
    chave=$1
    shift
    valor=$*
-   echo "$chave -> $valor"   
+
+   case "$chave" in
+      FILE_NAME)
+         file_name=$valor
+         ;;
+   
+      NAME_PROJECT)
+         name_project=$valor
+         ;;
+   
+      DIRECTORY)
+         directory=$valor
+         ;;
+   
+      HAS_JQUERY)
+         [ "$valor" = "YES" ] && has_jquery=1
+         ;;
+   
+      *)
+         echo "O arquivo de configuração está corrompido"
+         exit 1
+   esac
 done < "$CONFIG"
 
-
-varre todos os parametros passados na execução do programa
+# varre todos os parametros passados na execução do programa
 while test -n "$1"
 do
  case "$1" in
@@ -42,42 +65,44 @@ do
          exit 0
       ;;
 
-      -f | --file_name ) # guarda o valor do nome do arquivo passado por parametro
+      -f | --file_name )
        shift
        file_name="$1"
     ;;
 
-      -n | --name ) # guarda o valor do nome do projeto passado por parametro
+      -n | --name_project )
          shift
          name_project="$1"
       ;;
 
-      -d | --directory ) # guarda o valor com o diretorio onde será criado o programa
+      -d | --directory )
          shift
          directory="$1"
       ;;
 
-    -j | --jquery ) # guarda flag identificando a necessidade de carregar jquery
-       tem_jquery=1
+    -j | --jquery )
+       has_jquery=1
     ;;
  esac
  shift
 done
 
-# cria diretorio com o nome do projeto
-cd $PROJECTS
-mkdir $filename
-NEW_PROJECT=$PROJECTS/$filename
+directory=~/Projetos/pessoais/front-end
 
-# copia arquivos pre-configurados
-cd $filename/
+# cria diretorio com o nome do projeto
+cd $directory
+mkdir $file_name
+NEW_PROJECT=$directory/$file_name
+
+# # copia arquivos pre-configurados
+cd $file_name/
 cp $FILES_SETUP/.gitignore .gitignore
 cp $FILES_SETUP/Makefile Makefile
 cp -R $FILES_SETUP/test/ test
 mkdir example
 cp $FILES_SETUP/example.html example/example.html
 
-# baixa lib jasmine, descompacta e remove
+# # baixa lib jasmine, descompacta e remove
 cd test
 curl -L -O https://github.com/downloads/pivotal/jasmine/jasmine-standalone-1.3.1.zip
 echo ""
@@ -99,29 +124,29 @@ rm -rf lib jasmine-standalone-1.3.1.zip SpecRunner.html src spec
 
 # renomeia arquivos de teste com o nome do projeto
 cd ..
-mv runner.html runner.$filename.html
+mv runner.html runner.$file_name.html
 cd spec/
-mv spec.js spec.$filename.js
+mv spec.js spec.$file_name.js
 
 # cria arquivo de source principal com o nome do projeto
 cd $NEW_PROJECT
 mkdir src
 cd src/
-touch $filename.js
+touch $file_name.js
 
 # baixa jquery para o projeto, caso tenha sido solicitado por parametro
 if test "$tem_jquery" = 1
 then
- curl -L -O https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js
- echo ""
+   curl -L -O https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js
+   echo ""
 fi
 
 # modifica nome de valores - nome do projeto e nome do arquivo - de acordo
 # com o que foi passado por parametro
 cd ..
-sed -i.bak "s/{{ NAME_FILE }}/$filename/" test/runner.$filename.html example/example.html
+sed -i.bak "s/{{ NAME_FILE }}/$file_name/" test/runner.$file_name.html example/example.html
 rm -rf test/runner.$filename.html.bak example/example.html.bak
-sed -i.bak "s/{{ NAME_PROJECT }}/$name_project/" test/runner.$filename.html example/example.html test/spec/spec.$filename.js
-rm -rf test/runner.$filename.html.bak example/example.html.bak test/spec/spec.$filename.js.bak
+sed -i.bak "s/{{ NAME_PROJECT }}/$name_project/" test/runner.$file_name.html example/example.html test/spec/spec.$file_name.js
+rm -rf test/runner.$file_name.html.bak example/example.html.bak test/spec/spec.$file_name.js.bak
 
 echo -e "\033[32mOk!\033[m"

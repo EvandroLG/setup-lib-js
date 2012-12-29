@@ -6,8 +6,11 @@
 # https://github.com/evandrolg
 # License: MIT
 
+# constantes
 CONFIG="setup-js.conf"
 FILES_SETUP=~/Projetos/pessoais/front-end/setup-lib-js/files
+COLOR_SUCESS=32
+COLOR_ERROR=31
 MENSAGEM_HELP="
 \033[32mOPÇÕES:\033[m
 -f, --filename: Dá nome ao arquivo da lib
@@ -16,6 +19,7 @@ MENSAGEM_HELP="
 -j, --jquery: Baixa o script do jquery para o projeto
 "
 
+# variaveis que foram passadas por parametro ou no arquivo de configuracao
 file_name=
 name_project=
 directory=
@@ -51,7 +55,7 @@ while read LINHA; do
          ;;
    
       *)
-         echo "O arquivo de configuração está corrompido"
+         echo -e "\033[$COLOR_ERROR;mO arquivo de configuração está corrompido!\033[m"
          exit 1
    esac
 done < "$CONFIG"
@@ -99,12 +103,13 @@ is_ok=1
 # atributos file_name e name_project devem ter sido informados e directory deve ser valido
 [ "$file_name" = "" ] && is_file_name_valid=0 && is_ok=0
 [ "$name_project" = "" ] && is_name_project_valid=0 && is_ok=0
-[ -d "$directory" && ! -L "$directory" ] && is_directory_valid=0 && is_ok=0
+[ ! -d "$directory" ] && is_directory_valid=0 && is_ok=0
 
 # testa se programa nao está valido, se não estiver retorna mensagens de erro
 # e cancela execução do programa
 if test "$is_ok" = 0
 then
+   echo -e "\033[$COLOR_ERROR;mThe following erros were found:\033[m"
    [ "$is_file_name_valid" = 0 ] && echo "- file_name parameter is not valid"
    [ "$is_name_project_valid" = 0 ] && echo "- name_project parameter is not valid"
    [ "$is_directory_valid" = 0 ] && echo "- directory parameter is not valid"
@@ -172,4 +177,4 @@ rm -rf test/runner.$filename.html.bak example/example.html.bak
 sed -i.bak "s/{{ NAME_PROJECT }}/$name_project/" test/runner.$file_name.html example/example.html test/spec/spec.$file_name.js
 rm -rf test/runner.$file_name.html.bak example/example.html.bak test/spec/spec.$file_name.js.bak
 
-echo -e "\033[32mOk!\033[m"
+echo -e "\033[$COLOR_SUCESS;mOk!\033[m"

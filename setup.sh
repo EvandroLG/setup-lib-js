@@ -21,7 +21,7 @@ name_project=
 directory=
 has_jquery=0
 
-# faz parse dos arquivos de configuração
+# faz parser dos arquivos de configuração
 while read LINHA; do
    # remove todas as linhas com comentários
    [ "$(echo $LINHA | cut -c1)" = "#" ] && continue
@@ -87,7 +87,30 @@ do
  shift
 done
 
-directory=~/Projetos/pessoais/front-end
+# completa path setado, inserindo variavel de ambiente $HOME
+directory=$HOME$directory 
+
+# declaracao de variaveis de controle de validade dos parametros
+is_file_name_valid=1
+is_name_project_valid=1
+is_directory_valid=1
+is_ok=1
+
+# atributos file_name e name_project devem ter sido informados e directory deve ser valido
+[ "$file_name" = "" ] && is_file_name_valid=0 && is_ok=0
+[ "$name_project" = "" ] && is_name_project_valid=0 && is_ok=0
+[ -d "$directory" && ! -L "$directory" ] && is_directory_valid=0 && is_ok=0
+
+# testa se programa nao está valido, se não estiver retorna mensagens de erro
+# e cancela execução do programa
+if test "$is_ok" = 0
+then
+   [ "$is_file_name_valid" = 0 ] && echo "- file_name parameter is not valid"
+   [ "$is_name_project_valid" = 0 ] && echo "- name_project parameter is not valid"
+   [ "$is_directory_valid" = 0 ] && echo "- directory parameter is not valid"
+   
+   exit 1
+fi
 
 # cria diretorio com o nome do projeto
 cd $directory

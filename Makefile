@@ -1,2 +1,3 @@
 install:
-	@ln -s $(CURDIR)/setup.sh /usr/local/bin/setup-js
+	@cp -rf "$(CURDIR)" /usr/local/lib/setup-js/
+	@ln -s /usr/local/lib/setup-js/setup-js.sh /usr/local/bin/setup-js

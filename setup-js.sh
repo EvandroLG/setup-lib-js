@@ -7,8 +7,8 @@
 # License: MIT
 
 # constantes
-CONFIG="setup-js.conf"
-FILES_SETUP=~/Projetos/pessoais/front-end/setup-lib-js/files
+CONFIG="/usr/local/lib/setup-js/setup-js.conf"
+FILES_SETUP=/usr/local/lib/setup-js/files
 COLOR_SUCESS=32
 COLOR_ERROR=31
 MENSAGEM_HELP="

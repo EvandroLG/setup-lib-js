@@ -42,3 +42,5 @@ Supported options:
 *  <code>-j</code> or <code>--jquery</code>
 
 ## Configuration
+There are options that can be standard to your projecs JavaScript, like use a jQuery, the directory where the
+project should be created.

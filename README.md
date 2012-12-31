@@ -43,4 +43,5 @@ Supported options:
 
 ## Configuration
 There are options that can be standard to your projecs JavaScript, like use a jQuery, the directory where the
-project should be created. In such cases, edit the file setup-js.conf, which is within <code>usr/local/lib/setup-js</code>
+project should be created. In such cases, edit the file <code>setup-js.conf</code>, which is within 
+<code>usr/local/lib/setup-js</code>

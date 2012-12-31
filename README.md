@@ -35,6 +35,10 @@ If all goes well, the project will be created in the following structure:
     - example.html
 
 ## Options
-
+Supported options:
+*  <code>-f</code> or <code>--file_name</code>
+*  <code>-n</code> or <code>--name_project</code>
+*  <code>-d</code> or <code>--directory</code>
+*  <code>-j</code> or <code>--jquery</code>
 
 ## Configuration

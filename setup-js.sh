@@ -13,8 +13,8 @@ COLOR_SUCESS=32
 COLOR_ERROR=31
 MENSAGEM_HELP="
 \033[32mOPÇÕES:\033[m
--f, --filename: Dá nome ao arquivo da lib
--n, --name: Dá nome ao projeto
+-f, --file_name: Dá nome ao arquivo da lib
+-n, --name_project: Dá nome ao projeto
 -d, --directory: Caminho do diretório onde projeto será criado
 -j, --jquery: Baixa o script do jquery para o projeto
 "

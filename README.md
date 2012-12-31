@@ -1,6 +1,6 @@
 # setup-lib
 setup-lib is a command line tool to create a new project in JavaScript, with all essential: lib to test, 
-makefile, directory example.
+jshint, minify tool, directory example.
 
 ## Instalation
 ```
@@ -12,9 +12,29 @@ make
 ## How to use
 After installed, to create a new project JS run the following command:
 ```
-setup-js -f my_project_js -n MyProjectJS -d MyProjects/js/
+setup-js -f my-project-js -n MyProjectJS -d MyProjects/js/ -j
 ```
+If all goes well, the project will be created in the following structure:
+- my-project-js
+	- Makefile
+	- .gitignore
+	- src/
+		- my-project-js.js
+		- jquery.js
+  - test/
+    - jasmine/
+			- css/
+					jasmine.css
+			- js/
+					jasmine.js
+					jasmine-html.js
+    - spec/
+			spec.my-project-js
+    - runner.my-project-js
+  - example/
+    - example.html
 
 ## Options
+
 
 ## Configuration
